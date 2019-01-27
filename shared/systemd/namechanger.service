@@ -1,0 +1,13 @@
+# Version: {{ version }}
+
+[Unit]
+Description=namechanger
+Before=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=True
+ExecStart={{ executable }}
+
+[Install]
+WantedBy=multi-user.target
