@@ -2,9 +2,20 @@
 
 ## About
 
-Changes name of your host randomly on each boot. Or manually, when requested.
+Installs itself as a systemd service and changes name of the host randomly on each boot. Or manually, when requested. Works with:
+
+* Backbox
+* BlackArch
+* Debian 8/9
+* Kali
+* Parrot
+* Ubuntu 16.04/18.04/18.10
+
+See [targets](https://github.com/tasooshi/namechanger/tree/master/targets) for more precise information on versions and examples.
 
 ## Installation
+
+Clone the repository and:
 
     make install
 
