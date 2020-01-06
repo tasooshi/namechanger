@@ -1,6 +1,6 @@
 # License: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
 # Homepage: https://github.com/tasooshi/namechanger
-# Version: 0.8.0
+# Version: 0.9.0
 
 ###############
 # Environment #
@@ -26,7 +26,7 @@ endif
 
 NAMECHANGER_DESCRIPTION = Randomizes host name.
 NAMECHANGER_HOMEPAGE = https://github.com/tasooshi/namechanger
-NAMECHANGER_VERSION = 0.8.0
+NAMECHANGER_VERSION = 0.9.0
 NAMECHANGER_LICENSE = BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
 NAMECHANGER_BIN = /usr/local/bin/$(NAME)
 NAMECHANGER_BIN_TEMPLATE = $(SRC_DIR)/shared/bin/$(NAME).sh
@@ -44,20 +44,12 @@ NAMECHANGER_HOSTNAMEGEN = /usr/local/bin/hostnamegen
 
 OS_NAME = $(shell grep '^ID=' /etc/os-release | cut -d= -f2)
 
-ifeq (debian,$(OS_NAME))
-  OS_VERSION_SRC = '^VERSION_ID=' /etc/os-release
-else
-  OS_VERSION_SRC = '^DISTRIB_RELEASE=' /etc/lsb-release
-endif
-
-OS_VERSION = $(shell grep $(OS_VERSION_SRC) | cut -d= -f2 | sed s/\"//g)
-
-TARGET_OS = targets/$(OS_NAME)/$(OS_VERSION)/vars
+TARGET_OS = targets/$(OS_NAME)/vars
 
 ifeq (,$(wildcard $(TARGET_OS)))
-  $(error This operating system is not supported)
+  $(error This operating system is not supported: "$(OS_NAME)")
 else
-  $(info Operating system identified as: "$(OS_NAME)/$(OS_VERSION)")
+  $(info Operating system identified as: "$(OS_NAME)")
   include $(TARGET_OS)
 endif
 
@@ -77,7 +69,7 @@ $(NAMECHANGER_CONF): $(NAMECHANGER_CONF_TEMPLATE)
 	@sed -i 's^{{ hostnamegen }}^$(NAMECHANGER_HOSTNAMEGEN)^' $@
 	@sed -i 's^{{ log }}^$(NAMECHANGER_LOG)^' $@
 	@sed -i 's^{{ version }}^$(NAMECHANGER_VERSION)^' $@
-
+	@chmod a+rx $@
 
 $(NAMECHANGER_BIN): $(NAMECHANGER_BIN_TEMPLATE)
 	$(info Installing executable...)
@@ -87,7 +79,7 @@ $(NAMECHANGER_BIN): $(NAMECHANGER_BIN_TEMPLATE)
 	@sed -i 's^{{ version }}^$(NAMECHANGER_VERSION)^' $@
 	@sed -i 's^{{ license }}^$(NAMECHANGER_LICENSE)^' $@
 	@sed -i 's^{{ description }}^$(NAMECHANGER_DESCRIPTION)^' $@
-	@chmod a+x $@
+	@chmod a+rx $@
 
 
 $(NAMECHANGER_SERVICE): $(NAMECHANGER_SERVICE_TEMPLATE)
@@ -100,13 +92,13 @@ $(NAMECHANGER_SERVICE): $(NAMECHANGER_SERVICE_TEMPLATE)
 
 install: mkinstalldirs $(NAMECHANGER_BIN) $(NAMECHANGER_CONF) $(NAMECHANGER_SERVICE)
 	$(info Installing Python dependencies...)
+	@pip install wheel
 	@pip install hostnamegen==0.9.0
 	@systemctl enable $(NAME).service
 	@echo "*** NOTE: You might want to enable log rotation for $(NAMECHANGER_LOG)"
 
 
 uninstall:
-	@pip uninstall hostnamegen
 	@systemctl disable $(NAME).service
 	@rm $(NAMECHANGER_BIN) $(NAMECHANGER_CONF) $(NAMECHANGER_SERVICE)
 

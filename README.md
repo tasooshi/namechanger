@@ -6,17 +6,25 @@ Installs itself as a systemd service and changes name of the host randomly on ea
 
 * Backbox
 * BlackArch
-* Debian 8/9
+* Debian
 * Kali
 * Parrot
-* Ubuntu 16.04/18.04/18.10
+* Ubuntu
 
-See [targets](https://github.com/tasooshi/namechanger/tree/master/targets) for more precise information on versions and examples.
+See [targets](https://github.com/tasooshi/namechanger/tree/master/targets) for more precise information on supported versions.
 
 ## Installation
 
-Clone the repository and:
+Requirements (in Debian's terminology):
 
+* python
+* python-pip
+* python-setuptools
+
+Installation:
+
+    git clone https://github.com/tasooshi/namechanger.git
+    cd namechanger
     make install
 
 ## Usage
@@ -34,6 +42,18 @@ Reboot or...
 
 * Keep in mind that several network services keep track of your host name. Changing name of your box on the fly without putting down your network interfaces and changing MAC addresses doesn't make much sense.
 * Don't forget to update pip.
+
+## Changelog
+
+### 0.9.0
+
+* Installation script was failing due to changes in how versioning has changed in some security-oriented distros over the last year. This is now fixed.
+* At the same time, for the sake of simplicity, support for versioning was dropped until it makes sense to be introduced.
+* Updated README.md to mention pip and setuptools as installation requirements.
+
+### 0.8.0
+
+* Initial release.
 
 ## Structure
 
