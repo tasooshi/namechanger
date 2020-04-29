@@ -1,6 +1,6 @@
 # License: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
 # Homepage: https://github.com/tasooshi/namechanger
-# Version: 0.9.0
+# Version: 1.0.0
 
 ###############
 # Environment #
@@ -26,7 +26,7 @@ endif
 
 NAMECHANGER_DESCRIPTION = Randomizes host name.
 NAMECHANGER_HOMEPAGE = https://github.com/tasooshi/namechanger
-NAMECHANGER_VERSION = 0.9.0
+NAMECHANGER_VERSION = 1.0.0
 NAMECHANGER_LICENSE = BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
 NAMECHANGER_BIN = /usr/local/bin/$(NAME)
 NAMECHANGER_BIN_TEMPLATE = $(SRC_DIR)/shared/bin/$(NAME).sh
@@ -92,8 +92,8 @@ $(NAMECHANGER_SERVICE): $(NAMECHANGER_SERVICE_TEMPLATE)
 
 install: mkinstalldirs $(NAMECHANGER_BIN) $(NAMECHANGER_CONF) $(NAMECHANGER_SERVICE)
 	$(info Installing Python dependencies...)
-	@pip install wheel
-	@pip install hostnamegen==0.9.0
+	@pip3 install wheel
+	@pip3 install hostnamegen==1.0.0
 	@systemctl enable $(NAME).service
 	@echo "*** NOTE: You might want to enable log rotation for $(NAMECHANGER_LOG)"
 

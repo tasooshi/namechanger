@@ -17,9 +17,9 @@ See [targets](https://github.com/tasooshi/namechanger/tree/master/targets) for m
 
 Requirements (in Debian's terminology):
 
-* python
-* python-pip
-* python-setuptools
+* python3
+* python3-pip
+* python3-setuptools
 
 Installation:
 
@@ -44,6 +44,10 @@ Reboot or...
 * Don't forget to update pip.
 
 ## Changelog
+
+### 1.0.0
+
+* Now Python 3.x only.
 
 ### 0.9.0
 
